@@ -3,9 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sandra Lawal| 76870</title>
+    <title>Student Login Form | Sandra Lawal | 76870</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 40px;
+            color: #333;
+        }
+
+        .label-above {
+            max-width: 480px;
+            margin: 40px auto;
+            padding: 32px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        .form-group input {
+            padding: 10px 12px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #007BFF;
+        }
+
+        .error-text {
+            margin-top: 6px;
+            font-size: 0.875rem;
+            color: #dc3545;
+            display: none;
+        }
+
+        .input-error {
+            border-color: #dc3545 !important;
+        }
+
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        #successMessage {
+            max-width: 480px;
+            margin: 20px auto;
+            padding: 16px;
+            text-align: center;
+            font-size: 18px;
+            color: #155724;
+            background-color: #d4edda;
+            border: 1px solid #28a745;
+            border-radius: 6px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    
+
+    <h1>Student Login Form</h1>
+
+    <form id="studentLoginForm" class="label-above">
+        <div class="form-group">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" placeholder="e.g. Sandra" required>
+            <span id="firstNameError" class="error-text">First name is required.</span>
+        </div>
+
+        <div class="form-group">
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" placeholder="e.g. Lawal" required>
+            <span id="lastNameError" class="error-text">Last name is required.</span>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="e.g. sandra@email.com" required>
+            <span id="emailError" class="error-text">Please enter a valid email address.</span>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter password" required>
+            <span id="passwordError" class="error-text">Password must be at least 8 characters.</span>
+        </div>
+
+        <div class="form-group">
+            <label for="studentId">Student ID:</label>
+            <input type="number" id="studentId" name="studentId" placeholder="5-digit ID (10000-99999)" required>
+            <span id="studentIdError" class="error-text">Student ID must be between 10000 and 99999.</span>
+        </div>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <p id="successMessage">Login successful. Welcome, student!</p>
+
+    <script>
+        const formStudentLogin = document.getElementById("studentLoginForm");
+        const successMessage = document.getElementById("successMessage");
+
+        function showError(inputId, errorId) {
+            document.getElementById(errorId).style.display = "block";
+            document.getElementById(inputId).classList.add("input-error");
+        }
+
+        function hideError(inputId, errorId) {
+            document.getElementById(errorId).style.display = "none";
+            document.getElementById(inputId).classList.remove("input-error");
+        }
+
+        function validateEmail(email) {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        }
+
+        function validatePassword(password) {
+            return password.length >= 8;
+        }
+
+        function validateStudentId(studentId) {
+            return studentId >= 10000 && studentId <= 99999;
+        }
+
+        formStudentLogin.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const firstName = document.getElementById("firstName").value.trim();
+            const lastName = document.getElementById("lastName").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const studentId = document.getElementById("studentId").value.trim();
+
+            let isValid = true;
+
+            if (firstName === "") {
+                showError("firstName", "firstNameError");
+                isValid = false;
+            } else {
+                hideError("firstName", "firstNameError");
+            }
+
+            if (lastName === "") {
+                showError("lastName", "lastNameError");
+                isValid = false;
+            } else {
+                hideError("lastName", "lastNameError");
+            }
+
+            if (!validateEmail(email)) {
+                showError("email", "emailError");
+                isValid = false;
+            } else {
+                hideError("email", "emailError");
+            }
+
+            if (!validatePassword(password)) {
+                showError("password", "passwordError");
+                isValid = false;
+            } else {
+                hideError("password", "passwordError");
+            }
+
+            if (!validateStudentId(studentId)) {
+                showError("studentId", "studentIdError");
+                isValid = false;
+            } else {
+                hideError("studentId", "studentIdError");
+            }
+
+            if (isValid) {
+                formStudentLogin.reset();
+                hideError("firstName", "firstNameError");
+                hideError("lastName", "lastNameError");
+                hideError("email", "emailError");
+                hideError("password", "passwordError");
+                hideError("studentId", "studentIdError");
+
+                formStudentLogin.style.display = "none";
+                successMessage.style.display = "block";
+            }
+        });
+
+        document.getElementById("email").addEventListener("blur", function () {
+            const email = this.value.trim();
+            if (!validateEmail(email)) {
+                showError("email", "emailError");
+            } else {
+                hideError("email", "emailError");
+            }
+        });
+
+        document.getElementById("studentId").addEventListener("input", function () {
+            const studentId = this.value.trim();
+            if (!validateStudentId(studentId)) {
+                showError("studentId", "studentIdError");
+            } else {
+                hideError("studentId", "studentIdError");
+            }
+        });
+
+        window.addEventListener("load", () => {
+            formStudentLogin.reset();
+            successMessage.style.display = "none";
+        });
+    </script>
+
 </body>
 </html>
