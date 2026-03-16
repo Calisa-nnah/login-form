@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Login Form | Sandra Lawal | 76870</title>
 
+    <!--
+        Simple styling for the form and validation state.
+        Everything is kept in one file for a quick demo.
+    -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -53,6 +57,7 @@
             border-color: #007BFF;
         }
 
+        /* Error messages are hidden by default and shown by JS when validation fails */
         .error-text {
             margin-top: 6px;
             font-size: 0.875rem;
@@ -82,6 +87,7 @@
             background-color: #0056b3;
         }
 
+        /* Success message shown after successful validation */
         #successMessage {
             max-width: 480px;
             margin: 20px auto;
@@ -100,6 +106,7 @@
 
     <h1>Student Login Form</h1>
 
+    <!-- Login form (client-side validation handled via JavaScript) -->
     <form id="studentLoginForm" class="label-above">
         <div class="form-group">
             <label for="firstName">First Name:</label>
@@ -134,35 +141,43 @@
         <button type="submit">Login</button>
     </form>
 
+    <!-- Displayed once the form is successfully submitted -->
     <p id="successMessage">Login successful. Welcome, student!</p>
 
     <script>
+        // Element references (cached for reuse across validation logic)
         const formStudentLogin = document.getElementById("studentLoginForm");
         const successMessage = document.getElementById("successMessage");
 
+        // Show the inline error message and highlight the invalid input field
         function showError(inputId, errorId) {
             document.getElementById(errorId).style.display = "block";
             document.getElementById(inputId).classList.add("input-error");
         }
 
+        // Hide the inline error message and remove the error highlight
         function hideError(inputId, errorId) {
             document.getElementById(errorId).style.display = "none";
             document.getElementById(inputId).classList.remove("input-error");
         }
 
+        // Basic email validation (not exhaustive, but good enough for a demo)
         function validateEmail(email) {
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return emailPattern.test(email);
         }
 
+        // Ensure password is at least 8 characters long
         function validatePassword(password) {
             return password.length >= 8;
         }
 
+        // Ensure student ID is a 5-digit number in the expected range
         function validateStudentId(studentId) {
             return studentId >= 10000 && studentId <= 99999;
         }
 
+        // Validate the form on submit and prevent default form posting
         formStudentLogin.addEventListener("submit", function (e) {
             e.preventDefault();
 
@@ -222,6 +237,7 @@
             }
         });
 
+        // Validate email as soon as the user leaves the field
         document.getElementById("email").addEventListener("blur", function () {
             const email = this.value.trim();
             if (!validateEmail(email)) {
@@ -231,6 +247,7 @@
             }
         });
 
+        // Validate student ID as the user types (real-time feedback)
         document.getElementById("studentId").addEventListener("input", function () {
             const studentId = this.value.trim();
             if (!validateStudentId(studentId)) {
@@ -240,6 +257,7 @@
             }
         });
 
+        // Ensure the form starts in a clean state on page load
         window.addEventListener("load", () => {
             formStudentLogin.reset();
             successMessage.style.display = "none";
